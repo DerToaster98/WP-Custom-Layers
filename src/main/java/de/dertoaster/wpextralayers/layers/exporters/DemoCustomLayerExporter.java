@@ -1,12 +1,13 @@
-package org.demo.wpplugin.layers.exporters;
+package de.dertoaster.wpextralayers.layers.exporters;
 
-import org.demo.wpplugin.layers.DemoLayer;
+import de.dertoaster.wpextralayers.layers.DemoCustomLayer;
 import org.pepsoft.minecraft.Chunk;
 import org.pepsoft.worldpainter.Dimension;
 import org.pepsoft.worldpainter.Platform;
 import org.pepsoft.worldpainter.Tile;
 import org.pepsoft.worldpainter.exporting.*;
 import org.pepsoft.worldpainter.layers.Layer;
+import org.pepsoft.worldpainter.layers.exporters.ExporterSettings;
 
 import javax.vecmath.Point3i;
 import java.awt.*;
@@ -33,10 +34,9 @@ import static org.pepsoft.worldpainter.exporting.SecondPassLayerExporter.Stage.C
  * arguments) constructor. You could also override the {@link Layer#getRenderer()} method if you want to do something
  * more complicated.
  */
-@SuppressWarnings("unused") // Instantiated by the Layer class
-public class DemoLayerExporter extends AbstractLayerExporter<DemoLayer> implements FirstPassLayerExporter, SecondPassLayerExporter, IncidentalLayerExporter {
-    public DemoLayerExporter(Dimension dimension, Platform platform) {
-        super(dimension, platform, null, DemoLayer.INSTANCE);
+public class DemoCustomLayerExporter extends AbstractLayerExporter<DemoCustomLayer> implements FirstPassLayerExporter, SecondPassLayerExporter, IncidentalLayerExporter {
+    public DemoCustomLayerExporter(Dimension dimension, Platform platform, ExporterSettings settings, DemoCustomLayer layer) {
+        super(dimension, platform, settings, layer);
     }
 
     // TODO: add explanation of ExporterSettings
@@ -60,13 +60,15 @@ public class DemoLayerExporter extends AbstractLayerExporter<DemoLayer> implemen
      */
     @Override
     public void render(Tile tile, Chunk chunk) {
+        // TODO finish settings support with custom settings and settings editor
+
         // Create a local seed to ensure the results are deterministic, yet vary by world seed and by chunk
         final long seed = (dimension.getSeed() << 8) ^ ((long) chunk.getxPos() << 4) ^ chunk.getzPos();
         final int xOffset = (chunk.getxPos() & 7) << 4, zOffset = (chunk.getzPos() & 7) << 4;
         for (int xInChunk = 0; xInChunk < 16; xInChunk++) {
             for (int zInChunk = 0; zInChunk < 16; zInChunk++) {
                 final int xInTile = xOffset + xInChunk, zInTile = zOffset + zInChunk;
-                final int layerValue = tile.getLayerValue(DemoLayer.INSTANCE, xInTile, zInTile);
+                //final int layerValue = tile.getLayerValue(DemoLayer.INSTANCE, xInTile, zInTile);
                 // TODO: modify the Chunk as required according to the layer value
             }
         }
@@ -136,7 +138,7 @@ public class DemoLayerExporter extends AbstractLayerExporter<DemoLayer> implemen
         final long seed = (dimension.getSeed() << 8) ^ ((long) exportedArea.x << 4) ^ exportedArea.y;
         for (int x = area.x; x < (area.x + area.width); x++) {
             for (int y = area.y; y < (area.y + area.height); y++) {
-                final int layerValue = dimension.getLayerValueAt(DemoLayer.INSTANCE, x, y);
+                //final int layerValue = dimension.getLayerValueAt(DemoLayer.INSTANCE, x, y);
                 // TODO: modify the MinecraftWorld as required according to the layer value
             }
         }
@@ -179,7 +181,7 @@ public class DemoLayerExporter extends AbstractLayerExporter<DemoLayer> implemen
         final long seed = (dimension.getSeed() << 8) ^ ((long) exportedArea.x << 4) ^ exportedArea.y;
         for (int x = area.x; x < (area.x + area.width); x++) {
             for (int y = area.y; y < (area.y + area.height); y++) {
-                final int layerValue = dimension.getLayerValueAt(DemoLayer.INSTANCE, x, y);
+                //final int layerValue = dimension.getLayerValueAt(DemoLayer.INSTANCE, x, y);
                 // TODO: modify the MinecraftWorld as required according to the layer value
             }
         }
@@ -213,6 +215,6 @@ public class DemoLayerExporter extends AbstractLayerExporter<DemoLayer> implemen
         final long seed = (dimension.getSeed() << 12) ^ ((long) location.x << 8) ^ ((long) location.y << 4) ^ location.z;
         // TODO: modify the MinecraftWorld as required according to the intensity
         return null; // Or return a Fixup for creating structures that cross region borders, if that is hard to do in
-                     // one go
+        // one go
     }
 }

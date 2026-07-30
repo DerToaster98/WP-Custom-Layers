@@ -1,4 +1,4 @@
-package org.demo.wpplugin.layers.renderers;
+package de.dertoaster.wpextralayers.layers.renderers;
 
 import org.pepsoft.worldpainter.ColourScheme;
 import org.pepsoft.worldpainter.Dimension;

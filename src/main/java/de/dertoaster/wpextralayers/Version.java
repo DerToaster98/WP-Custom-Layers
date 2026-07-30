@@ -1,4 +1,4 @@
-package org.demo.wpplugin;
+package de.dertoaster.wpextralayers;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -16,7 +16,7 @@ public class Version {
     static {
         Properties versionProps = new Properties();
         try {
-            versionProps.load(Version.class.getResourceAsStream("/org.demo.wpplugin.properties"));
+            versionProps.load(Version.class.getResourceAsStream("/de.dertoaster.wp-extra-layers.properties"));
             VERSION = versionProps.getProperty("org.demo.wpplugin.version");
         } catch (IOException e) {
             throw new RuntimeException("I/O error loading version number from classpath", e);

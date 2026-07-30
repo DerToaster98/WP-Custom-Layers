@@ -1,33 +1,36 @@
-package org.demo.wpplugin.layers;
+package de.dertoaster.wpextralayers.layers;
 
+import de.dertoaster.wpextralayers.layers.exporters.DemoCustomLayerExporter;
+import org.pepsoft.worldpainter.Dimension;
+import org.pepsoft.worldpainter.Platform;
+import org.pepsoft.worldpainter.exporting.LayerExporter;
+import org.pepsoft.worldpainter.layers.CustomLayer;
 import org.pepsoft.worldpainter.layers.Layer;
+import org.pepsoft.worldpainter.layers.exporters.ExporterSettings;
 
+import java.awt.*;
 import java.io.Serial;
-import java.io.Serializable;
 
 import static org.pepsoft.worldpainter.layers.Layer.DataSize.NIBBLE;
 
-/**
- * The layer descriptor and provider class for your custom layer. This class is serialised in the .world file when it is
- * saved, so it must be {@link Serializable} and stable.
- */
-public class DemoLayer extends Layer {
-    private DemoLayer() {
-        super(ID, NAME, DESCRIPTION, DATA_SIZE, DISCRETE, PRIORITY);
+public class DemoCustomLayer extends CustomLayer {
+    public DemoCustomLayer() {
+        super(NAME, DESCRIPTION, DATA_SIZE, PRIORITY, COLOUR);
     }
 
     /**
-     * The globally unique ID of the layer. It's up to you what to use here. It is not visible to the user. It can be a
-     * FQDN or package and class name, like here, or you could use a UUID. As long as it is globally unique. The ID must
-     * change if the layer changes in a non backwards compatible way, but not between versions of the plugin if it is
-     * still backwards compatible.
+     * A custom layer must override this method. The default implementation only works for singular non-configurable
+     * {@link Layer}s.
      */
-    static final String ID = "org.demo.wpplugin.DemoLayer.v2";
+    @Override
+    public LayerExporter getExporter(Dimension dimension, Platform platform, ExporterSettings settings) {
+        return new DemoCustomLayerExporter(dimension, platform, settings, this);
+    }
 
     /**
      * Human-readable short name of the plugin.
      */
-    static final String NAME = "Demo Layer";
+    static final String NAME = "Demo Custom Layer";
 
     /**
      * Human-readable description of the plugin. This is used e.g. in the tooltip of the layer selection button.
@@ -46,14 +49,6 @@ public class DemoLayer extends Layer {
      * </table>
      */
     static final DataSize DATA_SIZE = NIBBLE;
-
-    /**
-     * Whether the layer values represent discrete entities (e.g. different biomes or terrains) or points on a
-     * continuous, sliding scale (e.g. the intensity with which a layer should be applied). This affects, for example,
-     * whether importing a mask for this layer will perform antialiasing of the input values, which is not desirable for
-     * discrete values.
-     */
-    static final boolean DISCRETE = false;
 
     /**
      * The priority in the export order for this layer. The exporters for layers with higher numbers will be invoked
@@ -75,8 +70,11 @@ public class DemoLayer extends Layer {
      */
     static final int PRIORITY = 50;
 
-    // This needs to be last, otherwise the static fields are not yet initialised
-    public static final DemoLayer INSTANCE = new DemoLayer();
+    /**
+     * The colour with which to render this layer in the editor. It must be passed to the superclass constructor, but it
+     * can be subsequently ignored by implementing {@link #getRenderer()} and providing your own renderer.
+     */
+    static final Color COLOUR = Color.MAGENTA;
 
     /**
      * This class is serialised in the .world file when it is saved, so it must be stable. It is recommended to give it

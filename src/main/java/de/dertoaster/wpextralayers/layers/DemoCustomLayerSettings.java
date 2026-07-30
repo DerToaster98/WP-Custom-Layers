@@ -1,4 +1,4 @@
-package org.demo.wpplugin.layers;
+package de.dertoaster.wpextralayers.layers;
 
 import org.pepsoft.worldpainter.layers.Layer;
 import org.pepsoft.worldpainter.layers.exporters.ExporterSettings;

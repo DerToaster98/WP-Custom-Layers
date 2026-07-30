@@ -1,7 +1,7 @@
-package org.demo.wpplugin.layers.editors;
+package de.dertoaster.wpextralayers.layers.editors;
 
-import org.demo.wpplugin.layers.DemoCustomLayer;
-import org.demo.wpplugin.layers.DemoCustomLayerSettings;
+import de.dertoaster.wpextralayers.layers.DemoCustomLayer;
+import de.dertoaster.wpextralayers.layers.DemoCustomLayerSettings;
 import org.pepsoft.worldpainter.Platform;
 import org.pepsoft.worldpainter.layers.AbstractLayerEditor;
 import org.pepsoft.worldpainter.layers.exporters.ExporterSettings;
